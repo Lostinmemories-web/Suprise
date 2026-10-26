@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #fff0f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Question Screen */
+        #question-screen img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #d90429;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yes-btn {
+            background-color: #2ec4b6;
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 196, 182, 0.4);
+            z-index: 10;
+        }
+
+        #no-btn {
+            background-color: #e71d36;
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 29, 54, 0.4);
+        }
+
+        /* Success Screen */
+        #success-screen h1 {
+            margin-bottom: 20px;
+        }
+
+        .cat-gif {
+            width: 140px;
+            margin-bottom: 20px;
+        }
+
+        .gifts-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gift-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100px;
+            text-align: center;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .gift-card img {
+            width: 50px;
+            margin-bottom: 8px;
+        }
+
+        .gift-card span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        /* Modal specific content */
+        .letter-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #444;
+            text-align: left;
+            margin-top: 15px;
+            white-space: pre-line;
+            font-style: italic;
+        }
+
+        .polaroid-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            width: 130px;
+            transform: rotate(-3deg);
+        }
+
+        .polaroid:nth-child(2) {
+            transform: rotate(3deg);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Initial Question Screen -->
+    <div class="container" id="question-screen">
+        <img src="https://media.giphy.com/media/Lndv4P9n8k02o/giphy.gif" alt="Cute cat">
+        <h1 id="question-text">Will you be my girlfriend? ❤️</h1>
+        <div class="btn-group">
+            <button id="yes-btn" onclick="handleYes()">YES</button>
+            <button id="no-btn" onclick="handleNo()">NO</button>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="container hidden" id="success-screen">
+        <img class="cat-gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Happy cat">
+        <h1>I knew you'd say yes ❤️</h1>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Tap a gift below:</p>
+        <div class="gifts-grid">
+            <div class="gift-card" onclick="openModal('memories-modal')">
+                <img src="https://img.icons8.com/color/96/gift.png" alt="Gift">
+                <span>GIFT 1</span>
+            </div>
+            <div class="gift-card" onclick="openModal('letter-modal')">
+                <img src="https://img.icons8.com/color/96/gift.png" alt="Gift">
+                <span>GIFT 2</span>
+            </div>
+            <div class="gift-card" onclick="openModal('song-modal')">
+                <img src="https://img.icons8.com/color/96/gift.png" alt="Gift">
+                <span>GIFT 3</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="memories-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('memories-modal')">&times;</span>
+            <h2 style="color: #d90429; margin-bottom: 10px;">Captured Memories</h2>
+            <div class="polaroid-container">
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9" alt="Memory">
+                </div>
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Memory">
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: #777;">Some of my favorite moments with you.</p>
+        </div>
+    </div>
+
+    <div id="letter-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('letter-modal')">&times;</span>
+            <h2 style="color: #d90429;">Dear Love,</h2>
+            <div class="letter-text">
+                Today is all about you, and I just want you to know how grateful I am to have you in my life. From the moment you came into my world, everything felt warmer, kinder, and more meaningful. You make ordinary moments feel special just by being in them. No matter where life takes us, you will always be my favorite place to be. 
+
+                Loving you is the easiest and most beautiful thing I know. Being with you feels like home. You are the best part of my life.
+            </div>
+            <p style="margin-top: 15px; font-weight: 600; color: #d90429; text-align: right;">Forever yours</p>
+        </div>
+    </div>
+
+    <div id="song-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('song-modal')">&times;</span>
+            <h2 style="color: #d90429; margin-bottom: 15px;">A song that reminds me of us</h2>
+            <div style="background: #fff0f3; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                <p style="font-weight: 600; color: #333;">Risk It All</p>
+                <p style="font-size: 0.85rem; color: #666;">Playing background track...</p>
+            </div>
+            <audio controls autoplay style="width: 100%;">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        const noMessages = [
+            "Wait... are you sure? 🥺",
+            "nah that's not right...",
+            "try again 😭",
+            "be serious...",
+            "okay now you're just playing...",
+            "okay last chance..."
+        ];
+
+        let noClickCount = 0;
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const questionText = document.getElementById('question-text');
+
+        function handleNo() {
+            if (noClickCount < noMessages.length) {
+                questionText.innerText = noMessages[noClickCount];
+                noClickCount++;
+                // Make YES button grow bigger with every NO click
+                let currentSize = window.getComputedStyle(yesBtn).fontSize;
+                yesBtn.style.fontSize = (parseFloat(currentSize) + 4) + 'px';
+                let currentPadding = window.getComputedStyle(yesBtn).padding;
+                yesBtn.style.padding = (parseFloat(currentPadding) + 4) + 'px';
+            } else {
+                noBtn.style.display = 'none'; // Hide NO button completely on final try
+            }
+        }
+
+        function handleYes() {
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('success-screen').classList.remove('hidden');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
